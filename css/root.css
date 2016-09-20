@@ -3,16 +3,6 @@ body, html {
   padding: 0;
 }
 
-#titlebar > div:first-child > a:nth-child(3) {
-  opacity: 0.3;
-}
-#titlebar > div:first-child > a:nth-child(3):active {
-  opacity: 0.2;
-}
-#titlebar > div:first-child > a:nth-child(3) svg {
-  visibility: hidden;
-}
-
 .loading-cube {
   margin: 45vh auto;
   width: 40px;

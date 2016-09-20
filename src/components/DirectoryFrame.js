@@ -5,32 +5,43 @@ import { MdCloudDownload as DownloadIcon } from 'react-icons/lib/md'
 
 import style from './_directoryFrame'
 
+const path = require('path')
+
 @observer
 class DirectoryFrame extends Component {
+  constructor (props) {
+    super(props)
+    this.store = props.store
+  }
+
   render () {
-    const { store } = this.props
     return (
       <View
         layout='horizontal'
         verticalAlignment='center'
-        horizontalAlignment='center'
         className={style.directoryFrame} >
         <Button onClick={this._chooseDir}>
           <DownloadIcon /> Choose folder
         </Button>
         <Text padding='0 5px'>
-          {store.directory}
+          {this.store.directory}
         </Text>
       </View>
     )
   }
 
   _chooseDir = () => {
-    const {remote, store} = this.props
-    const path = remote.dialog.showOpenDialog({
+    const { remote } = this.props
+
+    const folder = remote.dialog.showOpenDialog({
       properties: ['openDirectory']
     })
-    if (path) store.directory = path[0]
+    if (folder) this.store.directory = path.resolve(folder[0])
+  }
+
+  static propTypes = {
+    store: React.PropTypes.object.isRequired,
+    remote: React.PropTypes.object.isRequired
   }
 }
 

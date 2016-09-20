@@ -5,9 +5,13 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "webpack --progress && electron .",
-    "build": "cross-env NODE_ENV=production webpack --progress",
-    "watch": "webpack --progress --watch"
+    "build": "build",
+    "prebuild": "rm -rfv dist && echo Cleaned old dist && npm run bundle:prod",
+    "bundle": "webpack --progress",
+    "bundle:run": "webpack --progress && npm start",
+    "bundle:prod": "env NODE_ENV=production webpack --progress",
+    "bundle:watch": "webpack --progress --watch",
+    "test": "standard --parser babel-eslint src/**/*.js --verbose | snazzy"
   },
   "keywords": [
     "wallpaper",
@@ -21,6 +25,8 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
+    "file-url": "^1.1.0",
+    "glob": "^7.0.6",
     "mobx": "^2.5.1",
     "mobx-react": "^3.5.5",
     "react": "^15.3.1",
@@ -30,35 +36,54 @@
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "cross-env": "^2.0.1",
     "css-loader": "^0.25.0",
     "cssnano": "^3.7.4",
     "electron": "^1.3.5",
-    "electron-builder": "^6.4.1",
+    "electron-builder": "^7.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "lodash": "^4.15.0",
     "node-sass": "^3.9.0",
     "postcss-loader": "^0.13.0",
     "sass-loader": "^4.0.1",
+    "snazzy": "^5.0.0",
+    "standard": "^8.1.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2"
   },
   "build": {
-    "appId": "com.adkave.fahad.nfeh",
+    "appId": "gq.fahad.nfeh",
     "category": "public.app-category.utilities",
     "asar": true,
+    "license": "MIT",
     "files": [
       "css${/*}",
       "js${/*}",
-      "vendor${/*}",
+      "lib${/*}",
       "index.html",
       "main.js",
       "package.json"
-    ]
+    ],
+    "icon": "icon.png",
+    "directories": {
+      "buildResources": "."
+    },
+    "linux": {
+      "category": "Utility",
+      "depends": [
+        "feh",
+        "bash"
+      ],
+      "target": "tar.xz"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fa7ad/nfeh.git"
   }
 }

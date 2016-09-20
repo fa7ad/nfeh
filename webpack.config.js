@@ -1,8 +1,9 @@
-const _ = require('lodash')
 const Webpack = require('webpack')
 const cssnano = require('cssnano')
+const { uniq, concat } = require('lodash')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const { NODE_ENV } = process.env
+
+const isProduction = (process.env.NODE_ENV === 'production')
 
 const pluginsList = [
   new ExtractTextPlugin('css/styles.css'),
@@ -24,6 +25,7 @@ const prodPlugins = [
 
 module.exports = {
   noInfo: true,
+  target: 'electron',
   entry: [
     'babel-polyfill',
     './src/index.js'
@@ -32,7 +34,7 @@ module.exports = {
     path: './',
     filename: 'js/main.js'
   },
-  devtool: 'cheap-module-sourcemap',
+  devtool: isProduction ? null : 'cheap-module-sourcemap',
   resolve: {
     extensions: ['', '.js', '.jsx', '.sass']
   },
@@ -59,6 +61,5 @@ module.exports = {
     'react-dom': 'ReactDOM',
     'lodash': '_'
   },
-  plugins: _.uniq(
-    NODE_ENV === 'production' ? _.concat(prodPlugins, pluginsList) : pluginsList)
+  plugins: uniq(isProduction ? concat(prodPlugins, pluginsList) : pluginsList)
 }

@@ -4,10 +4,6 @@ const {app, BrowserWindow} = require('electron')
 // prevent window being garbage collected
 let mainWindow
 
-function onClosed () {
-  mainWindow = null
-}
-
 function createMainWindow () {
   const win = new BrowserWindow({
     width: 480,
@@ -18,7 +14,9 @@ function createMainWindow () {
   })
 
   win.loadURL(`file://${__dirname}/index.html`)
-  win.on('closed', onClosed)
+  win.on('closed', () => {
+    mainWindow = null
+  })
 
   return win
 }

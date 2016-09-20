@@ -7,9 +7,14 @@ import PicturesFrame from './PicturesFrame'
 import style from './_app'
 
 class App extends Component {
+  constructor (props) {
+    super(props)
+    this.store = props.store
+    this.remote = props.remote
+  }
+
   render () {
-    const {remote} = this.props
-    const win = remote.getCurrentWindow()
+    const win = this.remote.getCurrentWindow()
 
     return (
       <Window height='100vh' padding='5px'>
@@ -18,13 +23,20 @@ class App extends Component {
           controls
           onCloseClick={() => win.close()}
           onMinimizeClick={() => win.minimize()}
-          id='titlebar' />
-        <View layout='vertical' className={style.rootView}>
-          <DirectoryFrame remote={remote} store={this.props.store} />
-          <PicturesFrame />
+          className={style.titleBar} />
+        <View
+          layout='vertical'
+          className={style.rootView}>
+          <DirectoryFrame remote={this.remote} store={this.store} />
+          <PicturesFrame store={this.store} />
         </View>
       </Window>
     )
+  }
+
+  static propTypes = {
+    store: React.PropTypes.object.isRequired,
+    remote: React.PropTypes.object.isRequired
   }
 }
 
