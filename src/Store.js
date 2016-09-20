@@ -1,9 +1,9 @@
 import { observable } from 'mobx'
+import { join as paths } from 'path'
 
 class Store {
-  @observable directory = process.env.TMPDIR || __dirname
-  @observable posts = []
-  @observable selectedImage = 1
+  @observable directory = paths(process.env.HOME, 'Pictures') || __dirname
+  @observable selectedImage = 0
 }
 
 export default Store

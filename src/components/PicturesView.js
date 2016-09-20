@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
-import { ProgressCircle, Text, View } from 'react-desktop/macOs'
-import { FaInfoCircle as InfoIcon } from 'react-icons/lib/fa'
-import { observer } from 'mobx-react'
+import _ from 'lodash'
+import sizeOf from 'image-size'
 import { sync as find } from 'glob'
-import fileURL from 'file-url'
+import { join as paths } from 'path'
+import { observer } from 'mobx-react'
+import React, { Component } from 'react'
+import { FaInfoCircle as InfoIcon } from 'react-icons/lib/fa'
+import { ProgressCircle, Text, View } from 'react-desktop/macOs'
 
+import PictureItem from './PictureItem'
 import style from './_picturesView'
 
 @observer
@@ -15,11 +18,23 @@ class PicturesView extends Component {
   }
 
   render () {
-    const images = find(this.store.directory + '/**/*.jpg')
-    let renderables = [<ProgressCircle size={25} />]
+    const images = find(paths(this.store.directory, '**/*.{jpg,png,jpeg}'))
+
+    let renderables = [
+      <ProgressCircle size={25} />
+    ]
 
     if (images.length >= 1) {
-      renderables = images.map(image => <span>{fileURL(image)}</span>)
+      renderables = _.sortBy(images, [it => {
+        const {width, height} = sizeOf(it)
+        return (height / width)
+      }]).map((image, idx) => (
+        <PictureItem
+          idx={idx}
+          store={this.store}
+          location={image}
+          active={(this.store.selectedImage === idx)} />
+      ))
     } else {
       renderables = [
         <View layout='vertical' horizontalAlignment='center'>
@@ -32,7 +47,7 @@ class PicturesView extends Component {
     return (
       <View
         layout='horizontal'
-        verticalAlignment='left'
+        verticalAlignment='center'
         horizontalAlignment='center'
         className={style.picturesView}>
         {renderables}

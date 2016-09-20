@@ -20,9 +20,9 @@ class PicturesFrame extends Component {
         horizontalAlignment='center'
         className={style.picturesFrame}>
         <Box
-          label='Select wallpaper'
+          label='Select a wallpaper'
           className={style.boxContainer}>
-          <PicturesView store={this.props.store} />
+          <PicturesView store={this.store} />
         </Box>
       </View>
     )
