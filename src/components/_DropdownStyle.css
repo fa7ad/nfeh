@@ -1,0 +1,26 @@
+.Dropdown-root {
+  font-family: SFNS Display, Droid Sans, sans-serif;
+  font-size: 0.9em;
+}
+
+.Dropdown-root .Dropdown-control {
+  color: #0e0e0e;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 32px;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+
+.Dropdown-root .Dropdown-control .Dropdown-arrow {
+  top: 9px;
+}
+
+.Dropdown-root .Dropdown-menu {
+  bottom: 100%;
+  top: initial;
+}
+
+.Dropdown-control .Dropdown-placeholder {
+  min-width: 100px;
+}

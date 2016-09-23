@@ -36,7 +36,9 @@
     "react": "^15.3.1",
     "react-desktop": "^0.2.13",
     "react-dom": "^15.3.1",
-    "react-icons": "^2.2.1"
+    "react-dropdown": "^1.1.0",
+    "react-icons": "^2.2.1",
+    "shell-escape-tag": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",

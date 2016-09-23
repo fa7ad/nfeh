@@ -47,7 +47,7 @@ class PicturesView extends Component {
     return (
       <View
         layout='horizontal'
-        verticalAlignment='center'
+        verticalAlignment='right'
         horizontalAlignment='center'
         className={style.picturesView}>
         {renderables}

@@ -3,6 +3,7 @@ import { Window, TitleBar, View } from 'react-desktop/macOs'
 
 import DirectoryFrame from './DirectoryFrame'
 import PicturesFrame from './PicturesFrame'
+import OptionsFrame from './OptionsFrame'
 
 import style from './_app'
 
@@ -19,7 +20,7 @@ class App extends Component {
     return (
       <Window height='100vh' padding='5px'>
         <TitleBar
-          title='nFeh'
+          title='nfeh'
           controls
           onCloseClick={() => win.close()}
           onMinimizeClick={() => win.minimize()}
@@ -29,6 +30,7 @@ class App extends Component {
           className={style.rootView}>
           <DirectoryFrame remote={this.remote} store={this.store} />
           <PicturesFrame store={this.store} />
+          <OptionsFrame store={this.store} />
         </View>
       </Window>
     )

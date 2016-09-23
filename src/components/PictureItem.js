@@ -17,7 +17,6 @@ class PictureItem extends Component {
 
   render () {
     const { idx, location, active } = this.props
-
     const viewClass = cx(style.pictureItem, {
       [`${style.activeItem}`]: active
     })
@@ -29,15 +28,22 @@ class PictureItem extends Component {
         verticalAlignment='center'
         onClick={this._selectMe} >
         <Image
+          speed={0.5}
           src={fileURL(location)}
           alt={`image-${idx}`} />
       </View>
     )
   }
 
+  componentDidMount () {
+    if (this.props.active) {
+      this.store.selectedImagePath = this.props.location
+    }
+  }
+
   _selectMe = ev => {
     this.store.selectedImage = this.props.idx
-    return false
+    this.store.selectedImagePath = this.props.location
   }
 
   static propTypes = {

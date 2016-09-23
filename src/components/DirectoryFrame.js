@@ -18,9 +18,11 @@ class DirectoryFrame extends Component {
     return (
       <View
         layout='horizontal'
-        verticalAlignment='center'
+        verticalAlignment='left'
         className={style.directoryFrame} >
-        <Button onClick={this._chooseDir}>
+        <Button
+          onClick={this._chooseDir}
+          className={style.dirButton}>
           <DownloadIcon /> Choose folder
         </Button>
         <Text padding='0 5px'>
