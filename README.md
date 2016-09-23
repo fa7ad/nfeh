@@ -3,6 +3,7 @@
 Electron based GUI for feh
 ---
 Demo:
+
 [![nfeh demo on youtube](http://i.imgur.com/mK9wyPq.gif)](https://youtu.be/66BEoGxorXU)
 
 **NOTE:** This is just a hobby project that I'm creating to try out electron and possibly create an useful tool that I might use :grin:.
