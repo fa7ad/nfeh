@@ -28,28 +28,28 @@ class OptionsFrame extends Component {
   constructor (props) {
     super(props)
     this.store = props.store
-    this.state = {
-      icon: <FaWrench />
-    }
-  }
-
-  render () {
-    const fillOptions = [
+    this.fillOptions = [
       { value: 'bg-fill', label: 'Scale + Maintain ratio' },
       { value: 'bg-scale', label: 'Scale' },
       { value: 'bg-seamless', label: 'Seamless Borders' },
       { value: 'bg-tile', label: 'Tiled' },
       { value: 'bg-center', label: 'Centered' }
     ]
+    this.state = {
+      icon: <FaWrench />,
+      mode: this.fillOptions[0]
+    }
+  }
 
+  render () {
     return (
       <View
         layout='horizontal'
         verticalAlignment='center'
         className={style.optionsFrame} >
         <Dropdown
-          options={fillOptions}
-          value={fillOptions[0]}
+          options={this.fillOptions}
+          value={this.state.mode}
           onChange={this._selectFill}
           placeholder='Select a fill method...' />
         <Button
@@ -61,8 +61,9 @@ class OptionsFrame extends Component {
     )
   }
 
-  _selectFill = ({value}) => {
-    this.store.fillMode = value
+  _selectFill = (mode) => {
+    this.setState({ mode })
+    this.store.fillMode = mode.value
   }
 
   _doFeh = () => {
