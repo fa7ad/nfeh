@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "build",
     "prebuild": "rm -rfv dist && echo Cleaned old dist && npm run bundle:prod",
+    "build": "build --linux pacman deb AppImage",
+    "postbuild": "rename-files ./dist '.pacman' '.tar.xz'",
     "bundle": "webpack --progress",
     "bundle:run": "webpack --progress && npm start",
     "bundle:prod": "env NODE_ENV=production webpack --progress",
@@ -55,6 +56,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "node-sass": "^3.9.0",
     "postcss-loader": "^0.13.0",
+    "rename-files": "0.0.2",
     "sass-loader": "^4.0.1",
     "snazzy": "^5.0.0",
     "standard": "^8.1.0",
@@ -67,14 +69,14 @@
     "asar": true,
     "license": "MIT",
     "files": [
-      "css${/*}",
-      "js${/*}",
-      "lib${/*}",
+      "css/**",
+      "js/**",
+      "lib/**",
       "index.html",
       "main.js",
       "package.json"
     ],
-    "icon": "icon.png",
+    "icon": "icon.icns",
     "directories": {
       "buildResources": "."
     },
@@ -84,7 +86,14 @@
         "feh",
         "bash"
       ],
-      "target": "tar.xz"
+      "target": "pacman",
+      "desktop": {
+        "Name": "nfeh",
+        "Exec": "nfeh",
+        "Icon": "nfeh",
+        "Type": "Application",
+        "Categories": "Utility;"
+      }
     }
   },
   "repository": {
