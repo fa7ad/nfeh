@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { View } from 'react-desktop/macOs'
+import { lazyload } from 'react-lazyload'
 import Image from 'legit-image'
 
 import fileURL from 'file-url'
@@ -9,6 +10,11 @@ import cx from 'classnames'
 import style from './_pictureItem'
 
 @observer
+@lazyload({
+  height: '100%',
+  once: true,
+  scroll: true
+})
 class PictureItem extends Component {
   constructor (props) {
     super(props)
@@ -28,7 +34,7 @@ class PictureItem extends Component {
         verticalAlignment='center'
         onClick={this._selectMe} >
         <Image
-          speed={0.5}
+          speed={0.1}
           src={fileURL(location)}
           alt={`image-${idx}`} />
       </View>
