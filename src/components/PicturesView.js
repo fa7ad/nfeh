@@ -1,58 +1,74 @@
 import _ from 'lodash'
+import pify from 'pify'
+import nGlob from 'glob'
 import sizeOf from 'image-size'
-import { sync as find } from 'glob'
 import { join as paths } from 'path'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { FaInfoCircle as InfoIcon } from 'react-icons/lib/fa'
-import { ProgressCircle, Text, View } from 'react-desktop/macOs'
+import { ProgressCircle, View } from 'react-desktop/macOs'
 
 import PictureItem from './PictureItem'
+import NoImagesFound from './NoImagesFound'
+
 import style from './_picturesView'
+
+const glob = pify(nGlob)
+
+const aspectOf = image => {
+  const { width, height } = sizeOf(image)
+  return width / height
+}
+
+const LoadingCircle = <ProgressCircle size={25} className={style.loadingCircle} />
 
 @observer
 class PicturesView extends Component {
   constructor (props) {
     super(props)
     this.store = props.store
+    this.state = {
+      images: []
+    }
   }
 
   render () {
-    const images = find(paths(this.store.directory, '**/*.{jpg,png,jpeg}'))
-
-    let renderables = [
-      <ProgressCircle size={25} />
-    ]
-
-    if (images.length >= 1) {
-      renderables = _.sortBy(images, [it => {
-        const {width, height} = sizeOf(it)
-        return (height / width)
-      }]).map((image, idx) => (
-        <PictureItem
-          idx={idx}
-          store={this.store}
-          location={image}
-          active={(this.store.selectedImage === idx)} />
-      ))
-    } else {
-      renderables = [
-        <View layout='vertical' horizontalAlignment='center'>
-          <InfoIcon className={style.infoIcon} />
-          <Text>No images found in the selected directory.</Text>
-        </View>
-      ]
-    }
-
     return (
       <View
         layout='horizontal'
         verticalAlignment='right'
         horizontalAlignment='center'
         className={style.picturesView}>
-        {renderables}
+        {this.state.images.length > 0 ? this.state.images : LoadingCircle}
       </View>
     )
+  }
+
+  componentDidMount = this.updateImages
+  componentDidUpdate = this.updateImages
+
+  updateImages () {
+    glob(paths(this.store.directory, '**/*.{png,jpg,jepg}'))
+      .then(data => {
+        if (data.length === 0) throw new Error('404')
+        return data
+      })
+      .then(imgs => {
+        const images = _.map(_.orderBy(imgs, [it => aspectOf(it)], ['desc']),
+          (image, idx) => (
+            <PictureItem
+              index={idx}
+              store={this.store}
+              location={image}
+              active={(this.store.selectedImage === idx)}
+            />
+          )
+        )
+        this.setState({images})
+      })
+      .catch(err => {
+        if (err.message === '404') this.setState({images: [<NoImagesFound />]})
+        console.log(err.toString(), this.state)
+      })
   }
 
   static propTypes = {

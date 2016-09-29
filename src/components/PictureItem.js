@@ -22,7 +22,7 @@ class PictureItem extends Component {
   }
 
   render () {
-    const { idx, location, active } = this.props
+    const { index, location, active } = this.props
     const viewClass = cx(style.pictureItem, {
       [`${style.activeItem}`]: active
     })
@@ -36,7 +36,7 @@ class PictureItem extends Component {
         <Image
           speed={0.1}
           src={fileURL(location)}
-          alt={`image-${idx}`} />
+          alt={`image-${index}`} />
       </View>
     )
   }
@@ -48,12 +48,12 @@ class PictureItem extends Component {
   }
 
   _selectMe = ev => {
-    this.store.selectedImage = this.props.idx
+    this.store.selectedImage = this.props.index
     this.store.selectedImagePath = this.props.location
   }
 
   static propTypes = {
-    idx: React.PropTypes.any.isRequired,
+    index: React.PropTypes.any.isRequired,
     active: React.PropTypes.bool.isRequired,
     store: React.PropTypes.object.isRequired,
     location: React.PropTypes.string.isRequired
