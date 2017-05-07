@@ -1,3 +1,4 @@
+const path = require('path')
 const Webpack = require('webpack')
 const cssnano = require('cssnano')
 const { uniq, concat } = require('lodash')
@@ -7,7 +8,7 @@ const isProduction = (process.env.NODE_ENV === 'production')
 
 const pluginsList = [
   new ExtractTextPlugin('css/styles.css'),
-  new Webpack.NoErrorsPlugin()
+  new Webpack.NoEmitOnErrorsPlugin()
 ]
 
 const prodPlugins = [
@@ -24,19 +25,18 @@ const prodPlugins = [
 ]
 
 module.exports = {
-  noInfo: true,
   target: 'electron',
   entry: [
     'babel-polyfill',
     './src/index.js'
   ],
   output: {
-    path: './',
+    path: path.resolve('.'),
     filename: 'js/main.js'
   },
   devtool: isProduction ? null : 'cheap-module-sourcemap',
   resolve: {
-    extensions: ['', '.js', '.jsx', '.sass']
+    extensions: ['.js', '.jsx', '.sass']
   },
   module: {
     loaders: [
@@ -47,19 +47,48 @@ module.exports = {
       },
       {
         test: /\.s.ss$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css?modules&localIdentName="[name]-[local]-[hash:9]"' +
-          '&importLoaders=1!postcss!sass'
-        )
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 2
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: [cssnano]
+              }
+            },
+            'sass-loader'
+          ]
+        })
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss')
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: [cssnano]
+              }
+            }
+          ]
+        })
       }
     ]
   },
-  postcss: () => [cssnano],
   externals: {
     'react': 'React',
     'react-dom': 'ReactDOM',
