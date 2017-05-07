@@ -22,6 +22,12 @@
     "7zip-bin-mac" "^1.0.1"
     "7zip-bin-win" "^2.0.2"
 
+"@fa7ad/wallpaper@^2.4.2-a":
+  version "2.4.2-a"
+  resolved "https://registry.yarnpkg.com/@fa7ad/wallpaper/-/wallpaper-2.4.2-a.tgz#20327ec9669bb7e70a9c68b66a77b3981193b512"
+  dependencies:
+    pify "^2.3.0"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"

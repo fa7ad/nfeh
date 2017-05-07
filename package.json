@@ -26,6 +26,7 @@
     "url": "https://github.com/fa7ad/nfeh/issues"
   },
   "dependencies": {
+    "@fa7ad/wallpaper": "^2.4.2-a",
     "babel-polyfill": "^6.13.0",
     "classnames": "^2.2.5",
     "file-url": "^2.0.0",
@@ -40,8 +41,7 @@
     "react-dom": "^15.3.1",
     "react-dropdown": "^1.1.0",
     "react-icons": "^2.2.5",
-    "react-lazyload": "^2.1.5",
-    "shell-escape-tag": "^1.0.2"
+    "react-lazyload": "^2.1.5"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
