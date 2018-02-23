@@ -1,3 +1,6 @@
+# WARNING!
+## As it stands, this is abandonware. Use at your own risk! I don't get nearly enough time to maintain this.
+
 # nfeh
 
 Electron based GUI for feh
